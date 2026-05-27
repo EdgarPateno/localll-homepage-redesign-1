@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Localll — For the Everyday Explorers</title>
+
+  <!-- Google Fonts — Mood Board Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─────────────────────────────────────────────
+       MOOD BOARD DESIGN TOKENS (exact hex values)
+       ───────────────────────────────────────────── */
+    :root {
+      --off-white:   #F3EFE6;
+      --warm-gray:   #DCD5C6;
+      --sage:        #A8B49A;
+      --forest:      #55664A;
+      --brown:       #745A3D;
+      --near-black:  #2F2F2F;
+      --cream-card:  #EAE4D8;
+      --dark-card:   #1E1E1A;
+
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'DM Sans', system-ui, sans-serif;
+
+      --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ─────────────────────────────────────────────
+       RESET
+       ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--off-white);
+      color: var(--near-black);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; cursor: pointer; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    ul { list-style: none; }
+
+    /* ─────────────────────────────────────────────
+       FILM GRAIN OVERLAY (ui-ux-pro-max: Vintage Analog)
+       ───────────────────────────────────────────── */
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.4;
+      mix-blend-mode: multiply;
+    }
+
+    /* ─────────────────────────────────────────────
+       UTILITIES
+       ───────────────────────────────────────────── */
+    .wrap        { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+    .wrap--tight { max-width: 960px;  margin: 0 auto; padding: 0 40px; }
+    .wrap--wide  { max-width: 1520px; margin: 0 auto; padding: 0 40px; }
+
+    .label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--sans);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--off-white);
+      border: 1px solid rgba(243,239,230,0.5);
+      padding: 13px 28px;
+      transition: background .22s, border-color .22s;
+    }
+    .btn-ghost:hover { background: rgba(243,239,230,0.12); border-color: var(--off-white); }
+
+    .btn-solid {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--sans);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--off-white);
+      background: var(--forest);
+      padding: 14px 32px;
+      transition: background .22s;
+    }
+    .btn-solid:hover { background: var(--brown); }
+
+    .btn-outline-dark {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--sans);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--near-black);
+      border: 1.5px solid var(--near-black);
+      padding: 13px 28px;
+      transition: background .22s, color .22s;
+    }
+    .btn-outline-dark:hover { background: var(--near-black); color: var(--off-white); }
+
+    .btn-outline-forest {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--sans);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--forest);
+      border: 1.5px solid var(--forest);
+      padding: 13px 28px;
+      transition: background .22s, color .22s;
+    }
+    .btn-outline-forest:hover { background: var(--forest); color: var(--off-white); }
+
+    /* ─────────────────────────────────────────────
+       NAV
+       ───────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: var(--off-white);
+      box-shadow: 0 1px 0 var(--warm-gray);
+    }
+    .nav__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px; padding: 0 40px;
+      max-width: 1520px; margin: 0 auto;
+    }
+    .nav__logo { display: flex; align-items: center; }
+    .nav__logo img {
+      height: 36px; width: auto; display: block;
+    }
+
+    .nav__links { display: flex; gap: 32px; }
+    .nav__links a {
+      font-family: var(--sans);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(47,47,47,0.6);
+      transition: color .2s;
+      position: relative;
+    }
+    .nav__links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: currentColor;
+      transition: width .25s var(--ease);
+    }
+    .nav__links a:hover { color: var(--forest); }
+    .nav__links a:hover::after { width: 100%; }
+
+    .nav__right { display: flex; align-items: center; gap: 20px; }
+    .nav__cart {
+      font-family: var(--sans); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(47,47,47,0.6);
+      transition: color .2s;
+    }
+    .nav__cart:hover { color: var(--forest); }
+
+    .nav__cta {
+      font-family: var(--sans); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--forest);
+      border: 1px solid var(--forest);
+      padding: 8px 18px;
+      transition: background .2s, color .2s;
+    }
+    .nav__cta:hover { background: var(--forest); color: var(--off-white); }
+
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; }
+    .nav__hamburger span { display: block; width: 22px; height: 1.5px; background: var(--near-black); }
+
+    /* ─────────────────────────────────────────────
+       HERO — FULL BLEED PARALLAX + SPLIT OVERLAY
+       ───────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 680px;
+      overflow: hidden;
+      background: var(--near-black);
+    }
+
+    .hero__bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&h=1080&fit=crop') center / cover no-repeat;
+      filter: sepia(35%) saturate(70%) brightness(0.45);
+      transform: scale(1.04);
+      transition: transform 8s ease-out;
+    }
+
+    .hero__overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(
+          to right,
+          rgba(47,47,47,0.78) 0%,
+          rgba(47,47,47,0.52) 40%,
+          rgba(47,47,47,0.18) 70%,
+          rgba(47,47,47,0.08) 100%
+        ),
+        linear-gradient(
+          to bottom,
+          transparent 50%,
+          rgba(47,47,47,0.5) 100%
+        );
+    }
+
+    /* grain across the full hero */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 3;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+      background-size: 180px;
+      opacity: 0.5;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+
+    /* Split overlay: text left, product image right */
+    .hero__content {
+      position: absolute; inset: 0; z-index: 4;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 68px 40px 0;     /* top = nav height so content clears the header */
+      max-width: 1520px; margin: 0 auto; left: 0; right: 0;
+    }
+
+    .hero__text {
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      padding-top: 40px;     /* breathing room below the nav */
+      padding-bottom: 80px;
+    }
+    .hero__text-bottom {
+      display: flex; flex-direction: column;
+    }
+
+    .hero__product {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Polaroid-style photo frame, tilted right */
+    .hero__product-frame {
+      display: inline-block;
+      background: var(--off-white);
+      padding: 12px 12px 48px;          /* wide bottom → print/Polaroid feel */
+      transform: rotate(4.5deg);
+      transform-origin: bottom center;
+      box-shadow:
+        0 2px 6px rgba(0,0,0,0.18),     /* close contact shadow */
+        0 20px 56px rgba(0,0,0,0.52),   /* mid lift */
+        0 56px 120px rgba(0,0,0,0.32);  /* ambient depth */
+      position: relative;
+    }
+
+    /* Subtle inner mat line */
+    .hero__product-frame::after {
+      content: '';
+      position: absolute;
+      inset: 8px 8px 44px;
+      border: 1px solid rgba(47,47,47,0.12);
+      pointer-events: none;
+    }
+
+    .hero__product img {
+      height: 68vh;
+      max-height: 620px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .hero__badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--sage);
+    }
+    .hero__badge span {
+      font-family: var(--sans); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--sage);
+    }
+
+    .hero__headline {
+      font-family: var(--serif);
+      font-size: clamp(64px, 7.5vw, 120px);
+      font-weight: 600;
+      color: var(--off-white);
+      line-height: 0.92;
+      letter-spacing: -2px;
+      margin-bottom: 32px;
+    }
+    .hero__headline em { font-style: italic; color: var(--sage); }
+
+    .hero__sub {
+      font-family: var(--sans); font-size: 15px; font-weight: 300;
+      color: rgba(243,239,230,0.65);
+      max-width: 420px; line-height: 1.75;
+      margin-bottom: 44px;
+    }
+
+    .hero__actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ─── Trust Bar (hero + featured drop) ─── */
+    .trust-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(243,239,230,0.13);
+    }
+    .trust-bar__item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: rgba(243,239,230,0.52);
+    }
+    .trust-bar__item svg {
+      width: 13px; height: 13px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .trust-bar__sep {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: rgba(243,239,230,0.22);
+      flex-shrink: 0;
+    }
+
+    .hero__scroll {
+      position: absolute; right: 40px; bottom: 80px; z-index: 4;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      writing-mode: vertical-rl;
+      font-family: var(--sans); font-size: 10px; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(243,239,230,0.4);
+    }
+    .hero__scroll::after {
+      content: ''; display: block;
+      width: 1px; height: 48px;
+      background: rgba(243,239,230,0.25);
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%,100% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+    }
+
+    /* ─────────────────────────────────────────────
+       MARQUEE TICKER
+       ───────────────────────────────────────────── */
+    .marquee {
+      background: var(--forest);
+      overflow: hidden;
+      padding: 14px 0;
+      position: relative;
+    }
+    .marquee__track {
+      display: flex; gap: 0;
+      animation: marqueeScroll 30s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee__track:hover { animation-play-state: paused; }
+    .marquee__item {
+      display: inline-flex; align-items: center; gap: 28px;
+      padding: 0 28px;
+      font-family: var(--serif);
+      font-size: 15px; font-weight: 400; font-style: italic;
+      color: var(--off-white); opacity: 0.9;
+      flex-shrink: 0;
+    }
+    .marquee__sep {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--sage); flex-shrink: 0;
+    }
+    @keyframes marqueeScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─────────────────────────────────────────────
+       BRAND STORY — EDITORIAL SPLIT
+       ───────────────────────────────────────────── */
+    .story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+
+    .story__text-col {
+      background: var(--cream-card);
+      padding: 88px 64px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    .story__eyebrow {
+      color: var(--brown); margin-bottom: 20px;
+    }
+
+    .story__headline {
+      font-family: var(--serif);
+      font-size: clamp(38px, 4vw, 60px);
+      font-weight: 600; line-height: 1.05;
+      letter-spacing: -0.5px;
+      color: var(--near-black);
+      margin-bottom: 24px;
+    }
+    .story__headline em { font-style: italic; color: var(--forest); }
+
+    .story__body {
+      font-family: var(--sans); font-size: 15px; font-weight: 300;
+      line-height: 1.85; color: var(--near-black); opacity: 0.68;
+      max-width: 440px; margin-bottom: 40px;
+    }
+
+    .story__stats {
+      display: flex; gap: 40px; margin-bottom: 44px;
+      padding-top: 32px;
+      border-top: 1px solid var(--warm-gray);
+    }
+    .story__stat-num {
+      font-family: var(--serif);
+      font-size: 40px; font-weight: 600;
+      color: var(--forest); line-height: 1;
+      margin-bottom: 4px;
+    }
+    .story__stat-label {
+      font-family: var(--sans); font-size: 11px; font-weight: 400;
+      letter-spacing: 0.08em; color: var(--near-black); opacity: 0.5;
+    }
+
+    .story__image-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+    }
+    .story__img {
+      overflow: hidden; background: var(--warm-gray);
+      position: relative;
+    }
+    .story__img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(20%) saturate(80%);
+      transition: transform .6s var(--ease), filter .4s;
+    }
+    .story__img:hover img { transform: scale(1.05); filter: sepia(10%) saturate(90%); }
+    .story__img--tall { grid-row: span 2; }
+
+    /* ─────────────────────────────────────────────
+       FEATURED DROP — DARK HERO PRODUCT BLOCK
+       ───────────────────────────────────────────── */
+    .featured-drop {
+      background: var(--dark-card);
+      position: relative; overflow: hidden;
+      padding: 80px 0;
+    }
+
+    .featured-drop__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 560px;
+      max-width: 1320px; margin: 0 auto; padding: 0 40px;
+      align-items: center;
+    }
+
+    .featured-drop__label { color: var(--sage); margin-bottom: 16px; }
+
+    .featured-drop__name {
+      font-family: var(--serif);
+      font-size: clamp(44px, 5.5vw, 80px);
+      font-weight: 700; line-height: 0.95;
+      letter-spacing: -1.5px;
+      color: var(--off-white);
+      margin-bottom: 20px;
+    }
+    .featured-drop__name em { font-style: italic; color: var(--sage); }
+
+    .featured-drop__desc {
+      font-family: var(--sans); font-size: 14px; font-weight: 300;
+      color: rgba(243,239,230,0.55); line-height: 1.75;
+      max-width: 360px; margin-bottom: 20px;
+    }
+
+    .featured-drop__price {
+      font-family: var(--serif); font-size: 28px; font-weight: 500;
+      color: var(--off-white); margin-bottom: 36px;
+    }
+
+    .featured-drop__img {
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    /* Tilt wrapper — isolated so reveal animation doesn't override the rotation */
+    .featured-drop__img-tilt {
+      display: inline-block;
+      transform: rotate(-4.5deg);
+      transform-origin: center center;
+      transition: transform .45s var(--ease);
+    }
+    .featured-drop__img-tilt:hover {
+      transform: rotate(-4.5deg) scale(1.03);
+    }
+
+    /* Polaroid-style print frame */
+    .featured-drop__img-frame {
+      display: inline-block;
+      background: var(--off-white);
+      padding: 12px 12px 48px;
+      position: relative;
+      box-shadow:
+        0 2px 6px rgba(0,0,0,0.28),
+        0 20px 56px rgba(0,0,0,0.65),
+        0 56px 120px rgba(0,0,0,0.4);
+    }
+
+    /* Inner mat line */
+    .featured-drop__img-frame::after {
+      content: '';
+      position: absolute;
+      inset: 8px 8px 44px;
+      border: 1px solid rgba(47,47,47,0.12);
+      pointer-events: none;
+    }
+
+    .featured-drop__img-frame img {
+      display: block;
+      width: auto;
+      height: 400px;
+      max-height: 52vh;
+      object-fit: contain;
+    }
+
+    .featured-drop__glow {
+      position: absolute; inset: -40px;
+      background: radial-gradient(ellipse at center, rgba(85,102,74,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ─────────────────────────────────────────────
+       PRODUCT CATALOG — EDITORIAL MASONRY GRID
+       ───────────────────────────────────────────── */
+    .catalog {
+      padding: 96px 0;
+      background: var(--off-white);
+    }
+
+    .catalog__header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 48px;
+    }
+
+    .section-eyebrow { color: var(--brown); margin-bottom: 8px; }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 600; line-height: 1.05;
+      letter-spacing: -0.5px; color: var(--near-black);
+    }
+
+    .view-all {
+      font-family: var(--sans); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--forest);
+      display: flex; align-items: center; gap: 8px;
+      transition: gap .2s;
+    }
+    .view-all:hover { gap: 14px; }
+    .view-all::after { content: '→'; font-size: 13px; }
+
+    /* Masonry via CSS columns */
+    .catalog__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .product-card {
+      margin-bottom: 0;
+      background: var(--cream-card);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card__img {
+      overflow: hidden;
+      background: var(--warm-gray);
+    }
+    .product-card__img img {
+      width: 100%; display: block;
+      object-fit: cover;
+      filter: sepia(12%) saturate(85%);
+      transition: transform .55s var(--ease), filter .35s;
+    }
+    .product-card:hover .product-card__img img {
+      transform: scale(1.05);
+      filter: sepia(5%) saturate(95%);
+    }
+
+    /* Uniform portrait ratio — keeps every card row-aligned */
+    .product-card__img { aspect-ratio: 3/4; }
+
+    .product-card__meta {
+      padding: 16px 18px 20px;
+    }
+    .product-card__cat {
+      font-family: var(--sans); font-size: 9px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--brown); opacity: 0.7; margin-bottom: 5px;
+    }
+    .product-card__name {
+      font-family: var(--serif); font-size: 17px; font-weight: 500;
+      color: var(--near-black); line-height: 1.25; margin-bottom: 8px;
+    }
+    .product-card__price {
+      font-family: var(--sans); font-size: 13px; font-weight: 400;
+      color: var(--near-black); opacity: 0.45;
+    }
+
+    .product-card__add {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: var(--forest);
+      color: var(--off-white);
+      font-family: var(--sans); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-align: center; padding: 12px;
+      transform: translateY(100%);
+      transition: transform .28s var(--ease);
+    }
+    .product-card:hover .product-card__add { transform: translateY(0); }
+
+    /* ─────────────────────────────────────────────
+       HATS — HORIZONTAL SCROLL RAIL
+       ───────────────────────────────────────────── */
+    .hat-rail {
+      padding: 80px 0;
+      background: var(--cream-card);
+      overflow: hidden;
+    }
+
+    .hat-rail__header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .hat-rail__scroller {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+      cursor: grab;
+    }
+    .hat-rail__scroller:active { cursor: grabbing; }
+    .hat-rail__scroller::-webkit-scrollbar { height: 3px; }
+    .hat-rail__scroller::-webkit-scrollbar-thumb { background: var(--warm-gray); }
+    .hat-rail__scroller::-webkit-scrollbar-track { background: transparent; }
+
+    .hat-card {
+      flex-shrink: 0;
+      width: 240px;
+      scroll-snap-align: start;
+      background: var(--off-white);
+      position: relative; overflow: hidden;
+      cursor: pointer;
+    }
+    .hat-card__img {
+      aspect-ratio: 1; overflow: hidden;
+      background: var(--warm-gray);
+    }
+    .hat-card__img img {
+      width: 100%; height: 100%; object-fit: contain;
+      padding: 16px;
+      filter: sepia(10%) saturate(80%);
+      transition: transform .5s var(--ease), filter .3s;
+    }
+    .hat-card:hover .hat-card__img img {
+      transform: scale(1.06);
+      filter: sepia(3%) saturate(95%);
+    }
+    .hat-card__meta { padding: 14px 16px 18px; }
+    .hat-card__name {
+      font-family: var(--serif); font-size: 16px; font-weight: 500;
+      color: var(--near-black); line-height: 1.2; margin-bottom: 6px;
+    }
+    .hat-card__price {
+      font-family: var(--sans); font-size: 12px; font-weight: 400;
+      color: var(--near-black); opacity: 0.45;
+    }
+
+    /* ─────────────────────────────────────────────
+       SWEATSHIRTS — 3-COLUMN FEATURE
+       ───────────────────────────────────────────── */
+    .sweats {
+      padding: 96px 0;
+      background: var(--off-white);
+    }
+    .sweats__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .sweat-card {
+      background: var(--cream-card);
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .sweat-card__img {
+      aspect-ratio: 4/5; overflow: hidden;
+      background: var(--warm-gray);
+    }
+    .sweat-card__img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(15%) saturate(80%);
+      transition: transform .55s var(--ease), filter .35s;
+    }
+    .sweat-card:hover .sweat-card__img img {
+      transform: scale(1.05);
+      filter: sepia(6%) saturate(92%);
+    }
+    .sweat-card__meta { padding: 20px 22px 24px; }
+    .sweat-card__cat {
+      font-family: var(--sans); font-size: 9px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--brown); opacity: 0.7; margin-bottom: 6px;
+    }
+    .sweat-card__name {
+      font-family: var(--serif); font-size: 20px; font-weight: 500;
+      color: var(--near-black); margin-bottom: 8px; line-height: 1.2;
+    }
+    .sweat-card__price {
+      font-family: var(--sans); font-size: 13px;
+      color: var(--near-black); opacity: 0.45;
+    }
+    .sweat-card__add {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: var(--brown); color: var(--off-white);
+      font-family: var(--sans); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-align: center; padding: 12px;
+      transform: translateY(100%);
+      transition: transform .28s var(--ease);
+    }
+    .sweat-card:hover .sweat-card__add { transform: translateY(0); }
+
+    /* ─────────────────────────────────────────────
+       BRAND PILLARS — DARK NUMBERED GRID
+       ───────────────────────────────────────────── */
+    .pillars {
+      background: var(--near-black);
+      padding: 96px 0;
+    }
+    .pillars__header { margin-bottom: 72px; }
+    .pillars__headline {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 600; font-style: italic;
+      color: var(--off-white);
+      line-height: 1.1;
+    }
+    .pillars__headline span { color: var(--sage); }
+
+    .pillars__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+    .pillar-item {
+      background: var(--near-black);
+      padding: 48px 40px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: background .3s;
+    }
+    .pillar-item:hover { background: rgba(85,102,74,0.08); }
+
+    .pillar-item__num {
+      font-family: var(--serif);
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.2em;
+      color: var(--sage); opacity: 0.6;
+      margin-bottom: 20px;
+    }
+    .pillar-item__icon {
+      width: 40px; height: 40px;
+      color: var(--sage);
+      margin-bottom: 20px;
+    }
+    .pillar-item__name {
+      font-family: var(--serif);
+      font-size: 24px; font-weight: 600;
+      color: var(--off-white);
+      line-height: 1.2; margin-bottom: 12px;
+    }
+    .pillar-item__desc {
+      font-family: var(--sans); font-size: 13px; font-weight: 300;
+      color: rgba(243,239,230,0.45); line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────────
+       CREATOR SPLIT
+       ───────────────────────────────────────────── */
+    .creator {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 640px;
+    }
+    .creator__image {
+      position: relative; overflow: hidden;
+      background: var(--dark-card);
+    }
+    .creator__image img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(20%) saturate(75%) brightness(0.85);
+      transition: transform .7s var(--ease);
+    }
+    .creator:hover .creator__image img { transform: scale(1.04); }
+    .creator__image-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent 60%, rgba(30,30,26,0.5));
+    }
+
+    .creator__content {
+      background: var(--forest);
+      padding: 80px 64px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .creator__eyebrow { color: var(--sage); margin-bottom: 16px; }
+    .creator__headline {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 600; line-height: 1.05;
+      letter-spacing: -0.5px;
+      color: var(--off-white); margin-bottom: 20px;
+    }
+    .creator__headline em { font-style: italic; }
+    .creator__body {
+      font-family: var(--sans); font-size: 15px; font-weight: 300;
+      color: rgba(243,239,230,0.65); line-height: 1.75;
+      max-width: 380px; margin-bottom: 20px;
+    }
+    .creator__share-num {
+      font-family: var(--serif);
+      font-size: 52px; font-weight: 700;
+      color: var(--sage); line-height: 1;
+      margin-bottom: 4px;
+    }
+    .creator__share-desc {
+      font-family: var(--sans); font-size: 12px; font-weight: 400;
+      letter-spacing: 0.08em;
+      color: rgba(243,239,230,0.45); margin-bottom: 40px;
+    }
+
+    /* ─────────────────────────────────────────────
+       COLLECTIONS ROW
+       ───────────────────────────────────────────── */
+    .collections {
+      padding: 80px 0;
+      background: var(--cream-card);
+    }
+    .collections__grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .coll-card {
+      position: relative; overflow: hidden;
+      aspect-ratio: 2/3;
+      background: var(--warm-gray);
+      cursor: pointer;
+    }
+    .coll-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(20%) saturate(80%) brightness(0.9);
+      transition: transform .55s var(--ease), filter .35s;
+    }
+    .coll-card:hover img { transform: scale(1.06); filter: sepia(8%) saturate(95%) brightness(1); }
+    .coll-card__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(47,47,47,0.82) 0%, transparent 55%);
+    }
+    .coll-card__info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 20px 14px 16px;
+    }
+    .coll-card__name {
+      font-family: var(--serif); font-size: 14px; font-weight: 600;
+      color: var(--off-white); letter-spacing: 0.02em; margin-bottom: 3px;
+    }
+    .coll-card__arrow {
+      font-family: var(--sans); font-size: 10px; font-weight: 400;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(243,239,230,0.55);
+    }
+
+    /* ─────────────────────────────────────────────
+       EMAIL SIGNUP
+       ───────────────────────────────────────────── */
+    .signup {
+      background: var(--off-white);
+      padding: 96px 40px;
+      text-align: center;
+    }
+    .signup__eyebrow { color: var(--brown); margin-bottom: 14px; }
+    .signup__headline {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 500; font-style: italic;
+      color: var(--near-black); line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .signup__sub {
+      font-family: var(--sans); font-size: 14px; font-weight: 300;
+      color: var(--near-black); opacity: 0.5;
+      margin-bottom: 36px;
+    }
+    .signup__form {
+      display: flex; max-width: 480px; margin: 0 auto;
+    }
+    .signup__input {
+      flex: 1;
+      padding: 14px 20px;
+      font-family: var(--sans); font-size: 14px;
+      background: var(--cream-card);
+      border: 1.5px solid var(--warm-gray);
+      border-right: none;
+      color: var(--near-black); outline: none;
+      transition: border-color .2s;
+    }
+    .signup__input:focus { border-color: var(--forest); }
+    .signup__input::placeholder { color: var(--near-black); opacity: 0.3; }
+    .signup__btn {
+      font-family: var(--sans); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--off-white); background: var(--forest);
+      border: 1.5px solid var(--forest);
+      padding: 14px 28px; cursor: pointer;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .signup__btn:hover { background: var(--brown); border-color: var(--brown); }
+    .signup__note {
+      font-family: var(--sans); font-size: 11px;
+      color: var(--near-black); opacity: 0.3;
+      margin-top: 14px; letter-spacing: 0.04em;
+    }
+
+    /* ─────────────────────────────────────────────
+       EDITORIAL ROAD BANNER
+       ───────────────────────────────────────────── */
+    .road-banner {
+      position: relative; overflow: hidden;
+      background: var(--near-black);
+    }
+    .road-banner__img {
+      width: 100%; height: 440px;
+      object-fit: cover;
+      filter: sepia(40%) saturate(60%) brightness(0.45);
+      display: block;
+    }
+    .road-banner__content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 32px;
+    }
+    .road-banner__text {
+      font-family: var(--serif);
+      font-size: clamp(14px, 1.5vw, 18px);
+      font-weight: 300; font-style: italic;
+      color: rgba(243,239,230,0.5);
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .road-banner__headline {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 72px);
+      font-weight: 700; line-height: 1;
+      letter-spacing: -1px;
+      color: var(--off-white);
+      margin-bottom: 32px;
+    }
+    .road-banner__headline em { font-style: italic; color: var(--sage); }
+
+    /* ─────────────────────────────────────────────
+       FOOTER
+       ───────────────────────────────────────────── */
+    .footer {
+      background: var(--forest);
+      padding: 80px 40px 48px;
+    }
+    .footer__inner {
+      max-width: 1320px; margin: 0 auto;
+    }
+    .footer__top {
+      display: grid;
+      grid-template-columns: 2.5fr 1fr 1fr 1fr;
+      gap: 56px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid rgba(243,239,230,0.1);
+      margin-bottom: 40px;
+    }
+    .footer__logo {
+      margin-bottom: 12px;
+    }
+    .footer__logo img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+    .footer__tagline {
+      font-family: var(--serif); font-size: 15px; font-style: italic;
+      color: rgba(243,239,230,0.5); line-height: 1.5;
+      margin-bottom: 28px;
+    }
+    .footer__desc {
+      font-family: var(--sans); font-size: 13px; font-weight: 300;
+      color: rgba(243,239,230,0.4); line-height: 1.75;
+      max-width: 320px; margin-bottom: 28px;
+    }
+    .footer__socials { display: flex; gap: 12px; }
+    .footer__social-btn {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(243,239,230,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(243,239,230,0.4);
+      transition: color .2s, border-color .2s;
+    }
+    .footer__social-btn:hover { color: var(--off-white); border-color: rgba(243,239,230,0.45); }
+    .footer__col-title {
+      font-family: var(--sans); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(243,239,230,0.35); margin-bottom: 20px;
+    }
+    .footer__links { display: flex; flex-direction: column; gap: 12px; }
+    .footer__links a {
+      font-family: var(--sans); font-size: 13px; font-weight: 300;
+      color: rgba(243,239,230,0.55); transition: color .2s;
+    }
+    .footer__links a:hover { color: var(--off-white); }
+    .footer__bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer__copy {
+      font-family: var(--sans); font-size: 12px;
+      color: rgba(243,239,230,0.25); letter-spacing: 0.04em;
+    }
+    .footer__bottom-right {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: rgba(243,239,230,0.25);
+    }
+
+    /* ─────────────────────────────────────────────
+       RESPONSIVE
+       ───────────────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .catalog__grid { grid-template-columns: repeat(3, 1fr); }
+      .sweats__grid { grid-template-columns: 1fr 1fr; }
+      .sweats__grid .sweat-card:last-child { display: none; }
+      .footer__top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 900px) {
+      .nav__links, .nav__cta, .nav__cart { display: none; }
+      .nav__hamburger { display: flex; }
+
+      .hero__content { grid-template-columns: 1fr; }
+      .hero__product { display: none; }
+      .hero__text { padding-bottom: 60px; }
+      .hero__scroll { display: none; }
+
+      .story { grid-template-columns: 1fr; }
+      .story__text-col { padding: 64px 32px; }
+      .story__image-col { grid-template-columns: 1fr 1fr; grid-template-rows: auto; height: 360px; }
+      .story__img--tall { grid-row: span 1; }
+
+      .featured-drop__inner { grid-template-columns: 1fr; gap: 48px; }
+      .featured-drop__img { order: -1; }
+      .featured-drop__img-frame { width: 280px; }
+
+      .creator { grid-template-columns: 1fr; }
+      .creator__image { height: 360px; }
+      .creator__content { padding: 56px 36px; }
+
+      .catalog__grid { grid-template-columns: repeat(2, 1fr); }
+      .sweats__grid { grid-template-columns: 1fr; }
+
+      .collections__grid { grid-template-columns: repeat(4, 1fr); }
+
+      .pillars__grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .wrap, .wrap--tight, .wrap--wide { padding: 0 20px; }
+      .nav__inner { padding: 0 20px; }
+      .hero__content { padding: 68px 20px 0; }
+      .hero__text { padding-bottom: 48px; }
+      .hero__scroll { display: none; }
+      .story__text-col { padding: 48px 20px; }
+      .catalog__grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .hat-rail { padding: 60px 0; }
+      .hat-card { width: 180px; }
+      .collections__grid { grid-template-columns: repeat(3, 1fr); }
+      .sweats__grid { grid-template-columns: 1fr; }
+      .pillars__grid { grid-template-columns: 1fr; }
+      .footer__top { grid-template-columns: 1fr; gap: 32px; }
+      .featured-drop__inner { padding: 0 20px; }
+      .signup__form { flex-direction: column; }
+      .signup__input { border-right: 1.5px solid var(--warm-gray); }
+    }
+
+    /* ─────────────────────────────────────────────
+       SCROLL REVEAL
+       ───────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .65s var(--ease), transform .65s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       NAV
+       ═══════════════════════════════════════════ -->
+  <nav class="nav" id="nav" role="navigation" aria-label="Main">
+    <div class="nav__inner">
+      <a href="https://localll.store/" class="nav__logo" aria-label="Localll home">
+        <img src="../localll-logo-transparent.png" alt="Localll" />
+      </a>
+
+      <ul class="nav__links" role="list">
+        <li><a href="https://localll.store/Shop">Shop All</a></li>
+        <li><a href="https://localll.store/Shop?category=hats">Hats</a></li>
+        <li><a href="https://localll.store/Shop?category=tshirts">Tees</a></li>
+        <li><a href="https://localll.store/Shop?category=sweatshirts">Sweatshirts</a></li>
+        <li><a href="https://localll.store/About">Our Story</a></li>
+      </ul>
+
+      <div class="nav__right">
+        <a href="https://localll.store/Shop" class="nav__cart">Shop</a>
+        <a href="https://localll.store/CreatorSignUp" class="nav__cta">Become a Creator</a>
+      </div>
+
+      <button class="nav__hamburger" aria-label="Open menu" id="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO — FULL BLEED
+       ═══════════════════════════════════════════ -->
+  <section class="hero" aria-label="Hero">
+    <!-- Full-bleed parallax background -->
+    <div class="hero__bg" id="heroBg"></div>
+    <div class="hero__overlay"></div>
+
+    <!-- Split content overlay: text left / product image right -->
+    <div class="hero__content">
+      <div class="hero__text">
+        <!-- Badge pinned to top of hero text column -->
+        <div class="hero__badge">
+          <div class="hero__badge-dot"></div>
+          <span>New arrivals just dropped — Spring 2026</span>
+        </div>
+
+        <!-- Headline + CTAs + trust bar pinned to bottom -->
+        <div class="hero__text-bottom">
+          <h1 class="hero__headline">
+            Wear the<br/>
+            places<br/>
+            <em>you love.</em>
+          </h1>
+
+          <p class="hero__sub">
+            Everyday apparel rooted in hometowns, open roads, and the rituals that make life worth wearing.
+          </p>
+
+          <div class="hero__actions">
+            <a href="https://localll.store/Shop" class="btn-solid">Shop the Collection</a>
+            <a href="https://localll.store/About" class="btn-ghost">Our Story</a>
+          </div>
+
+          <div class="trust-bar" aria-label="Trust signals">
+            <div class="trust-bar__item">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,1 10,6 15,6 11,9.5 12.5,14.5 8,11.5 3.5,14.5 5,9.5 1,6 6,6"/></svg>
+              4.8 · 2,400+ Reviews
+            </div>
+            <span class="trust-bar__sep" aria-hidden="true"></span>
+            <div class="trust-bar__item">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="7" width="10" height="7" rx="1"/><path d="M11 10h2.5a1 1 0 00.9-.55l.6-1.2V7h-4"/><path d="M3.5 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM11.5 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg>
+              Free US Shipping $50+
+            </div>
+            <span class="trust-bar__sep" aria-hidden="true"></span>
+            <div class="trust-bar__item">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 112.5 5"/><path d="M2.5 2v3h3"/></svg>
+              30-Day Returns
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__product">
+        <div class="hero__product-frame">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-premium-sweatshirt-black-back-69b87f77285d4.jpg?v=1773698954"
+            alt="Lake Country Patch Sweatshirt"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">Scroll</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MARQUEE TICKER
+       ═══════════════════════════════════════════ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marqueeTrack">
+      <!-- Items duplicated in JS for seamless loop -->
+      <span class="marquee__item">Rooted in the Ordinary <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Made to Last <span class="marquee__sep"></span></span>
+      <span class="marquee__item">For the Everyday Explorers <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Inspired by Nature &amp; Place <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Daily Rituals Done Well <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Tradition, Not Trends <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Made for Wherever <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Rooted in the Ordinary <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Made to Last <span class="marquee__sep"></span></span>
+      <span class="marquee__item">For the Everyday Explorers <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Inspired by Nature &amp; Place <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Daily Rituals Done Well <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Tradition, Not Trends <span class="marquee__sep"></span></span>
+      <span class="marquee__item">Made for Wherever <span class="marquee__sep"></span></span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       BRAND STORY — EDITORIAL SPLIT
+       ═══════════════════════════════════════════ -->
+  <section class="story" aria-labelledby="story-heading">
+    <div class="story__image-col">
+      <div class="story__img story__img--tall">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=1200&fit=crop" alt="Mountain landscape — the places that inspire Localll" loading="lazy" />
+      </div>
+      <div class="story__img">
+        <img src="https://images.unsplash.com/photo-1529720317453-c8da503f2051?w=600&h=500&fit=crop" alt="Vintage hat — Localll gear" loading="lazy" />
+      </div>
+      <div class="story__img">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=500&fit=crop" alt="Forest path — where Localll wearers roam" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="story__text-col">
+      <p class="label section-eyebrow story__eyebrow">Who We Are</p>
+      <h2 class="story__headline reveal" id="story-heading">
+        Not a brand.<br/>
+        A <em>feeling</em><br/>
+        you know.
+      </h2>
+      <p class="story__body reveal reveal-delay-1">
+        From golden-hour lake days and quiet neighborhood walks to roadside diners, citrus groves, and unforgettable trips — Localll creates apparel that captures the warmth of places. Every design tells a story. Every stitch earns its wear.
+      </p>
+
+      <div class="story__stats reveal reveal-delay-2">
+        <div>
+          <p class="story__stat-num">35%</p>
+          <p class="story__stat-label">Creator profit share</p>
+        </div>
+        <div>
+          <p class="story__stat-num">2,400+</p>
+          <p class="story__stat-label">Local community members</p>
+        </div>
+        <div>
+          <p class="story__stat-num">100%</p>
+          <p class="story__stat-label">Community-inspired design</p>
+        </div>
+      </div>
+
+      <a href="https://localll.store/About" class="btn-outline-dark reveal reveal-delay-3">Read Our Story</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FEATURED DROP — DARK EDITORIAL
+       ═══════════════════════════════════════════ -->
+  <section class="featured-drop" aria-labelledby="drop-heading">
+    <div class="featured-drop__inner">
+      <div>
+        <p class="label featured-drop__label">Featured Drop</p>
+        <h2 class="featured-drop__name reveal" id="drop-heading">
+          Mountain<br/>
+          <em>Roadhouse</em><br/>
+          Diner
+        </h2>
+        <p class="featured-drop__desc reveal reveal-delay-1">
+          Inspired by late-night stops and the kind of places you still talk about years later. Vintage-black tee with original artwork. Printed to last.
+        </p>
+        <p class="featured-drop__price reveal reveal-delay-1">$29.00</p>
+        <div class="reveal reveal-delay-2" style="display:flex;gap:14px;flex-wrap:wrap;">
+          <a href="https://localll.store/ProductDetail?id=6a0d5d855feb3369b72ca1a9" class="btn-solid">Shop This Drop</a>
+          <a href="https://localll.store/Shop" class="btn-ghost" style="padding:13px 24px;">View All Tees</a>
+        </div>
+
+        <div class="trust-bar reveal reveal-delay-3" aria-label="Trust signals">
+          <div class="trust-bar__item">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,1 10,6 15,6 11,9.5 12.5,14.5 8,11.5 3.5,14.5 5,9.5 1,6 6,6"/></svg>
+            4.8 · 2,400+ Reviews
+          </div>
+          <span class="trust-bar__sep" aria-hidden="true"></span>
+          <div class="trust-bar__item">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="7" width="10" height="7" rx="1"/><path d="M11 10h2.5a1 1 0 00.9-.55l.6-1.2V7h-4"/><path d="M3.5 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM11.5 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg>
+            Free US Shipping $50+
+          </div>
+          <span class="trust-bar__sep" aria-hidden="true"></span>
+          <div class="trust-bar__item">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 112.5 5"/><path d="M2.5 2v3h3"/></svg>
+            30-Day Returns
+          </div>
+        </div>
+      </div>
+      <div class="featured-drop__img">
+        <div class="featured-drop__glow"></div>
+        <div class="featured-drop__img-tilt">
+          <div class="featured-drop__img-frame">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-staple-t-shirt-vintage-black-front-69bdffc2f3466.jpg?v=1774059481"
+            alt="Mountain Roadhouse Diner T-shirt — Localll"
+            loading="eager"
+          />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FULL CATALOG — EDITORIAL MASONRY
+       ═══════════════════════════════════════════ -->
+  <section class="catalog" aria-labelledby="catalog-heading">
+    <div class="wrap">
+      <div class="catalog__header">
+        <div>
+          <p class="label section-eyebrow">The Diner Series + More</p>
+          <h2 class="section-title" id="catalog-heading">Shop All Tees</h2>
+        </div>
+        <a href="https://localll.store/Shop?category=tshirts" class="view-all">View All</a>
+      </div>
+
+      <div class="catalog__grid">
+
+        <div class="product-card product-card--tall reveal">
+          <a href="https://localll.store/ProductDetail?id=6a0d5d855feb3369b72ca1a9">
+            <div class="product-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-staple-t-shirt-vintage-black-front-69bdffc2f3466.jpg?v=1774059481" alt="Mountain Roadhouse Diner T-shirt" loading="lazy" />
+            </div>
+            <div class="product-card__meta">
+              <p class="product-card__cat">Diner Series</p>
+              <h3 class="product-card__name">Mountain Roadhouse Diner</h3>
+              <p class="product-card__price">$29.00</p>
+            </div>
+            <div class="product-card__add">Quick Add</div>
+          </a>
+        </div>
+
+        <div class="product-card product-card--sq reveal reveal-delay-1">
+          <a href="https://localll.store/ProductDetail?id=6a0d5d852a7b55f20a23a959">
+            <div class="product-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-staple-t-shirt-vintage-black-front-69bdfe79e1cf1.jpg?v=1774059155" alt="Motor City Diner T-shirt" loading="lazy" />
+            </div>
+            <div class="product-card__meta">
+              <p class="product-card__cat">Diner Series</p>
+              <h3 class="product-card__name">Motor City Diner</h3>
+              <p class="product-card__price">$29.00</p>
+            </div>
+            <div class="product-card__add">Quick Add</div>
+          </a>
+        </div>
+
+        <div class="product-card product-card--sq reveal reveal-delay-2">
+          <a href="https://localll.store/ProductDetail?id=6a0d5d840d9ad4d3322065e4">
+            <div class="product-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-staple-t-shirt-vintage-black-front-69bdfbf8704d5.jpg?v=1774058512" alt="Heartland Diner T-shirt" loading="lazy" />
+            </div>
+            <div class="product-card__meta">
+              <p class="product-card__cat">Diner Series</p>
+              <h3 class="product-card__name">Heartland Diner</h3>
+              <p class="product-card__price">$29.00</p>
+            </div>
+            <div class="product-card__add">Quick Add</div>
+          </a>
+        </div>
+
+        <div class="product-card product-card--tall reveal">
+          <a href="https://localll.store/ProductDetail?id=6a0d5d84809027f379ab0f4c">
+            <div class="product-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-staple-t-shirt-vintage-black-front-69bdfab56a321.jpg?v=1774058191" alt="Gulf Coast Diner T-Shirt" loading="lazy" />
+            </div>
+            <div class="product-card__meta">
+              <p class="product-card__cat">Diner Series</p>
+              <h3 class="product-card__name">Gulf Coast Diner</h3>
+              <p class="product-card__price">$29.00</p>
+            </div>
+            <div class="product-card__add">Quick Add</div>
+          </a>
+        </div>
+
+        <div class="product-card product-card--sq reveal reveal-delay-1">
+          <a href="https://localll.store/Shop?category=tshirts">
+            <div class="product-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-staple-t-shirt-vintage-black-front-69bdf92d07e75.jpg?v=1774057797" alt="Desert Highway Diner T-shirt" loading="lazy" />
+            </div>
+            <div class="product-card__meta">
+              <p class="product-card__cat">Diner Series</p>
+              <h3 class="product-card__name">Desert Highway Diner</h3>
+              <p class="product-card__price">$29.00</p>
+            </div>
+            <div class="product-card__add">Quick Add</div>
+          </a>
+        </div>
+
+        <div class="product-card product-card--sq reveal reveal-delay-2">
+          <a href="https://localll.store/Shop?category=tshirts">
+            <div class="product-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-staple-t-shirt-vintage-black-front-69bdee0a2079d.jpg?v=1774054951" alt="Blue Ridge Diner T-shirt" loading="lazy" />
+            </div>
+            <div class="product-card__meta">
+              <p class="product-card__cat">Diner Series</p>
+              <h3 class="product-card__name">Blue Ridge Diner</h3>
+              <p class="product-card__price">$29.00</p>
+            </div>
+            <div class="product-card__add">Quick Add</div>
+          </a>
+        </div>
+
+        <div class="product-card product-card--wide reveal">
+          <a href="https://localll.store/Shop?category=tshirts">
+            <div class="product-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-staple-t-shirt-vintage-black-front-69bc8e8f39bf5.jpg?v=1773964978" alt="Sunset Diner T-Shirt" loading="lazy" />
+            </div>
+            <div class="product-card__meta">
+              <p class="product-card__cat">Diner Series</p>
+              <h3 class="product-card__name">Sunset Diner</h3>
+              <p class="product-card__price">$29.00</p>
+            </div>
+            <div class="product-card__add">Quick Add</div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       COLLECTIONS ROW
+       ═══════════════════════════════════════════ -->
+  <section class="collections" aria-labelledby="coll-heading">
+    <div class="wrap" style="margin-bottom:40px;">
+      <div class="catalog__header">
+        <div>
+          <p class="label section-eyebrow">Explore</p>
+          <h2 class="section-title" id="coll-heading">Shop by Category</h2>
+        </div>
+        <a href="https://localll.store/Shop" class="view-all">All Collections</a>
+      </div>
+    </div>
+    <div class="wrap--wide">
+      <div class="collections__grid">
+        <a href="https://localll.store/Shop?category=hats" class="coll-card">
+          <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=600&fit=crop" alt="Hats collection" loading="lazy" />
+          <div class="coll-card__overlay"></div>
+          <div class="coll-card__info">
+            <p class="coll-card__name">Hats</p>
+            <span class="coll-card__arrow">Shop →</span>
+          </div>
+        </a>
+        <a href="https://localll.store/Shop?category=tshirts" class="coll-card">
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=600&fit=crop" alt="Tees collection" loading="lazy" />
+          <div class="coll-card__overlay"></div>
+          <div class="coll-card__info">
+            <p class="coll-card__name">Tees</p>
+            <span class="coll-card__arrow">Shop →</span>
+          </div>
+        </a>
+        <a href="https://localll.store/Shop?category=sweatshirts" class="coll-card">
+          <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=600&fit=crop" alt="Sweatshirts collection" loading="lazy" />
+          <div class="coll-card__overlay"></div>
+          <div class="coll-card__info">
+            <p class="coll-card__name">Sweatshirts</p>
+            <span class="coll-card__arrow">Shop →</span>
+          </div>
+        </a>
+        <a href="https://localll.store/Shop?category=socks" class="coll-card">
+          <img src="https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=400&h=600&fit=crop" alt="Socks collection" loading="lazy" />
+          <div class="coll-card__overlay"></div>
+          <div class="coll-card__info">
+            <p class="coll-card__name">Socks</p>
+            <span class="coll-card__arrow">Shop →</span>
+          </div>
+        </a>
+        <a href="https://localll.store/Shop?category=photography" class="coll-card">
+          <img src="https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=400&h=600&fit=crop" alt="Photography collection" loading="lazy" />
+          <div class="coll-card__overlay"></div>
+          <div class="coll-card__info">
+            <p class="coll-card__name">Photography</p>
+            <span class="coll-card__arrow">Shop →</span>
+          </div>
+        </a>
+        <a href="https://localll.store/Shop?category=prints" class="coll-card">
+          <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=400&h=600&fit=crop" alt="Prints collection" loading="lazy" />
+          <div class="coll-card__overlay"></div>
+          <div class="coll-card__info">
+            <p class="coll-card__name">Prints</p>
+            <span class="coll-card__arrow">Shop →</span>
+          </div>
+        </a>
+        <a href="https://localll.store/Shop?category=home_accessories" class="coll-card">
+          <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=400&h=600&fit=crop" alt="Home accessories collection" loading="lazy" />
+          <div class="coll-card__overlay"></div>
+          <div class="coll-card__info">
+            <p class="coll-card__name">Home</p>
+            <span class="coll-card__arrow">Shop →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       HATS — HORIZONTAL SCROLL RAIL
+       ═══════════════════════════════════════════ -->
+  <section class="hat-rail" aria-labelledby="hats-heading">
+    <div class="wrap">
+      <div class="hat-rail__header">
+        <div>
+          <p class="label section-eyebrow">Easy Going Series</p>
+          <h2 class="section-title" id="hats-heading">The Cap Collection</h2>
+        </div>
+        <a href="https://localll.store/Shop?category=hats" class="view-all">All Hats</a>
+      </div>
+    </div>
+    <div style="padding:0 40px;">
+      <div class="hat-rail__scroller" id="hatScroller" role="list">
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be01c2eba5d.jpg?v=1774059984" alt="Easy Going Golfing Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Easy Going Golfing Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be033641b37.jpg?v=1774060357" alt="Easy Going Morning Coffee Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Morning Coffee Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-6903b03d19e8e.jpg?v=1761849420" alt="Easy Going Georgia Flower Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Georgia Flower Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be028c51586.jpg?v=1774060186" alt="Easy Going Book Club Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Book Club Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be023951163.jpg?v=1774060104" alt="Easy Going Ol' Running Shoes Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Ol' Running Shoes Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be03efdae4c.jpg?v=1774060542" alt="Easy Going Texas Flower Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Texas Flower Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be049934665.jpg?v=1774060711" alt="Easy Going Iowa Flower Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Iowa Flower Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be0575e9d00.jpg?v=1774060932" alt="Easy Going Georgia Bird Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Georgia Bird Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be06104fff1.jpg?v=1774061087" alt="Easy Going Texas State Bird Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Texas State Bird Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69be066f76f36.jpg?v=1774061182" alt="Easy Going Iowa Bird Cap" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Iowa Bird Cap</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69b8b18a300f4.jpg?v=1773711771" alt="Localll Orange Hat" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Localll Orange Hat</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="hat-card" role="listitem">
+          <a href="https://localll.store/Shop?category=hats">
+            <div class="hat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/classic-dad-hat-black-front-69b8ae7151167.jpg?v=1773710974" alt="Localll Lemon Hat" loading="lazy" />
+            </div>
+            <div class="hat-card__meta">
+              <h3 class="hat-card__name">Localll Lemon Hat</h3>
+              <p class="hat-card__price">$29.00</p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SWEATSHIRTS — 3 COLUMN FEATURE
+       ═══════════════════════════════════════════ -->
+  <section class="sweats" aria-labelledby="sweats-heading">
+    <div class="wrap">
+      <div class="catalog__header" style="margin-bottom:48px;">
+        <div>
+          <p class="label section-eyebrow">Patch Series</p>
+          <h2 class="section-title" id="sweats-heading">Sweatshirts Built to Last</h2>
+        </div>
+        <a href="https://localll.store/Shop?category=sweatshirts" class="view-all">All Sweatshirts</a>
+      </div>
+      <div class="sweats__grid">
+
+        <div class="sweat-card reveal">
+          <a href="https://localll.store/Shop?category=sweatshirts">
+            <div class="sweat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-premium-sweatshirt-black-back-69b87f77285d4.jpg?v=1773698954" alt="Lake Country Patch Sweatshirt" loading="lazy" />
+            </div>
+            <div class="sweat-card__meta">
+              <p class="sweat-card__cat">Patch Series</p>
+              <h3 class="sweat-card__name">Lake Country Patch Sweatshirt</h3>
+              <p class="sweat-card__price">$65.00</p>
+            </div>
+          </a>
+          <div class="sweat-card__add">Quick Add</div>
+        </div>
+
+        <div class="sweat-card reveal reveal-delay-1">
+          <a href="https://localll.store/Shop?category=sweatshirts">
+            <div class="sweat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-premium-sweatshirt-black-back-69b87cf6698b1.jpg?v=1773698315" alt="Pacific Northwest Patch Sweatshirt" loading="lazy" />
+            </div>
+            <div class="sweat-card__meta">
+              <p class="sweat-card__cat">Patch Series</p>
+              <h3 class="sweat-card__name">Pacific Northwest Patch Sweatshirt</h3>
+              <p class="sweat-card__price">$65.00</p>
+            </div>
+          </a>
+          <div class="sweat-card__add">Quick Add</div>
+        </div>
+
+        <div class="sweat-card reveal reveal-delay-2">
+          <a href="https://localll.store/Shop?category=sweatshirts">
+            <div class="sweat-card__img">
+              <img src="https://cdn.shopify.com/s/files/1/0961/1303/3348/files/unisex-premium-sweatshirt-black-back-69b88069be3c7.jpg?v=1773699197" alt="Mountain West Patch Sweatshirt" loading="lazy" />
+            </div>
+            <div class="sweat-card__meta">
+              <p class="sweat-card__cat">Patch Series</p>
+              <h3 class="sweat-card__name">Mountain West Patch Sweatshirt</h3>
+              <p class="sweat-card__price">$65.00</p>
+            </div>
+          </a>
+          <div class="sweat-card__add">Quick Add</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       BRAND PILLARS — DARK NUMBERED
+       ═══════════════════════════════════════════ -->
+  <section class="pillars" aria-labelledby="pillars-heading">
+    <div class="wrap">
+      <div class="pillars__header">
+        <p class="label" style="color:var(--sage);margin-bottom:16px;">Our Values</p>
+        <h2 class="pillars__headline" id="pillars-heading">
+          What we believe in.<br/>
+          <span>Every single stitch.</span>
+        </h2>
+      </div>
+
+      <div class="pillars__grid">
+
+        <div class="pillar-item reveal">
+          <p class="pillar-item__num">01</p>
+          <svg class="pillar-item__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 4C12 4 6 10 6 17c0 11 14 19 14 19s14-8 14-19c0-7-6-13-14-13z"/>
+            <circle cx="20" cy="17" r="4"/>
+          </svg>
+          <h3 class="pillar-item__name">Inspired by<br/>Nature &amp; Place</h3>
+          <p class="pillar-item__desc">Every collection begins with a real location — a ridge, a roadside, a coast you remember.</p>
+        </div>
+
+        <div class="pillar-item reveal reveal-delay-1">
+          <p class="pillar-item__num">02</p>
+          <svg class="pillar-item__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="20" cy="14" r="6"/>
+            <path d="M8 36s2-10 12-10 12 10 12 10"/>
+            <path d="M28 8l6-4M12 8L6 4"/>
+          </svg>
+          <h3 class="pillar-item__name">Daily Rituals<br/>Done Well</h3>
+          <p class="pillar-item__desc">Coffee run, morning walk, late-night diner. The ordinary moments deserve to feel good.</p>
+        </div>
+
+        <div class="pillar-item reveal reveal-delay-2">
+          <p class="pillar-item__num">03</p>
+          <svg class="pillar-item__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 28l8-14 8 10 5-6 7 10"/>
+            <path d="M2 36h36"/>
+            <circle cx="32" cy="10" r="3"/>
+          </svg>
+          <h3 class="pillar-item__name">Outdoors<br/>is Home</h3>
+          <p class="pillar-item__desc">Made for wherever the trail ends and the road begins. Comfort first, always.</p>
+        </div>
+
+        <div class="pillar-item reveal">
+          <p class="pillar-item__num">04</p>
+          <svg class="pillar-item__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="20" cy="20" r="8"/>
+            <circle cx="20" cy="20" r="3"/>
+            <path d="M20 8V4M20 36v-4M8 20H4M36 20h-4"/>
+          </svg>
+          <h3 class="pillar-item__name">Music &amp; Culture<br/>Matter</h3>
+          <p class="pillar-item__desc">Rooted in the sounds, stories, and scenes that communities pass down.</p>
+        </div>
+
+        <div class="pillar-item reveal reveal-delay-1">
+          <p class="pillar-item__num">05</p>
+          <svg class="pillar-item__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 4l4 8h9l-7 5.5 2.5 9-8.5-5.5-8.5 5.5 2.5-9L6 12h9z"/>
+          </svg>
+          <h3 class="pillar-item__name">Tradition,<br/>Not Trends</h3>
+          <p class="pillar-item__desc">Timeless design over fast fashion. Pieces that age better the more you wear them.</p>
+        </div>
+
+        <div class="pillar-item reveal reveal-delay-2">
+          <p class="pillar-item__num">06</p>
+          <svg class="pillar-item__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 10h28M6 20h28M6 30h28"/>
+            <circle cx="14" cy="10" r="3" fill="currentColor" stroke="none"/>
+            <circle cx="26" cy="20" r="3" fill="currentColor" stroke="none"/>
+            <circle cx="18" cy="30" r="3" fill="currentColor" stroke="none"/>
+          </svg>
+          <h3 class="pillar-item__name">Made for<br/>Wherever</h3>
+          <p class="pillar-item__desc">From the city block to the national park. Wear it all, wear it anywhere.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CREATOR SPLIT
+       ═══════════════════════════════════════════ -->
+  <section class="creator" aria-labelledby="creator-heading">
+    <div class="creator__image">
+      <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=900&h=800&fit=crop" alt="Creator designing for Localll" loading="lazy" />
+      <div class="creator__image-overlay"></div>
+    </div>
+    <div class="creator__content">
+      <p class="label creator__eyebrow">Community Creators</p>
+      <h2 class="creator__headline reveal" id="creator-heading">
+        Your design.<br/>
+        <em>Your hometown.</em><br/>
+        Your cut.
+      </h2>
+      <p class="creator__body reveal reveal-delay-1">
+        Submit a design that celebrates a real place — a state, a city, a landmark. We produce it, promote it, and you earn every time your community shows up.
+      </p>
+      <p class="creator__share-num reveal reveal-delay-1">35%</p>
+      <p class="creator__share-desc">Profit share on every sale. No cap. No end date.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;" class="reveal reveal-delay-2">
+        <a href="https://localll.store/CreatorPortal" class="btn-solid">Start Creating</a>
+        <a href="https://localll.store/About" class="btn-ghost" style="border-color:rgba(243,239,230,0.3);">Design Guidelines</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       EMAIL SIGNUP
+       ═══════════════════════════════════════════ -->
+  <section class="signup" aria-labelledby="signup-heading">
+    <p class="label signup__eyebrow">Stay Local</p>
+    <h2 class="signup__headline" id="signup-heading">
+      New drops. Creator launches.<br/>Local love — straight to your inbox.
+    </h2>
+    <p class="signup__sub">Join 2,400+ locals. No spam, just new things worth knowing about.</p>
+    <form class="signup__form" onsubmit="return false;" aria-label="Newsletter signup">
+      <label for="email-input" class="sr-only">Email address</label>
+      <input
+        id="email-input"
+        type="email"
+        class="signup__input"
+        placeholder="Your email address"
+        autocomplete="email"
+      />
+      <button type="submit" class="signup__btn">Join the Community</button>
+    </form>
+    <p class="signup__note">No spam. Unsubscribe anytime.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ROAD BANNER
+       ═══════════════════════════════════════════ -->
+  <div class="road-banner" aria-hidden="true">
+    <img
+      class="road-banner__img"
+      src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&h=700&fit=crop"
+      alt=""
+      loading="lazy"
+    />
+    <div class="road-banner__content">
+      <p class="road-banner__text">Localll — For the everyday explorers</p>
+      <h2 class="road-banner__headline">
+        Inspired by places,<br/>
+        <em>made for every day.</em>
+      </h2>
+      <a href="https://localll.store/Shop" class="btn-ghost" style="font-size:12px;">Shop the Collection</a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div>
+          <div class="footer__logo">
+            <img src="../localll-logo-transparent.png" alt="Localll" />
+          </div>
+          <p class="footer__tagline">Rooted in the Ordinary.<br/>Made to Last.</p>
+          <p class="footer__desc">
+            Localll celebrates the places, moments and feelings you love. Through thoughtful apparel and art, we capture the warmth of hometowns, travel, and everyday moments that feel timeless.
+          </p>
+          <div class="footer__socials">
+            <a href="#" class="footer__social-btn" aria-label="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" class="footer__social-btn" aria-label="TikTok">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg>
+            </a>
+            <a href="#" class="footer__social-btn" aria-label="Pinterest">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12c0-2.2 1.8-4 4-4 3 0 5 2 5 4.5C17 15 15.5 17 13 17c-1 0-2-.5-2.5-1.5L9.5 18"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Shop</p>
+          <ul class="footer__links">
+            <li><a href="https://localll.store/Shop">Shop All</a></li>
+            <li><a href="https://localll.store/Shop?category=hats">Hats</a></li>
+            <li><a href="https://localll.store/Shop?category=tshirts">T-Shirts</a></li>
+            <li><a href="https://localll.store/Shop?category=sweatshirts">Sweatshirts</a></li>
+            <li><a href="https://localll.store/Shop?category=socks">Socks</a></li>
+            <li><a href="https://localll.store/Shop?category=photography">Photography</a></li>
+            <li><a href="https://localll.store/Shop?category=prints">Prints</a></li>
+            <li><a href="https://localll.store/Shop?category=home_accessories">Home Accessories</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Creators</p>
+          <ul class="footer__links">
+            <li><a href="https://localll.store/CreatorPortal">Submit a Design</a></li>
+            <li><a href="https://localll.store/CreatorPortal">Creator Dashboard</a></li>
+            <li><a href="https://localll.store/About">Design Guidelines</a></li>
+            <li><a href="https://localll.store/CreatorSignUp">Become a Creator</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Company</p>
+          <ul class="footer__links">
+            <li><a href="https://localll.store/About">Our Story</a></li>
+            <li><a href="https://localll.store/About">Contact</a></li>
+            <li><a href="https://localll.store/About">FAQ</a></li>
+            <li><a href="https://localll.store/OrderTracking">Track Order</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 Localll, LLC · All rights reserved · Sheridan, WY</p>
+        <p class="footer__bottom-right">For the everyday explorers.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Screen reader utility -->
+  <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
+
+  <!-- ═══════════════════════════════════════════
+       JAVASCRIPT
+       ═══════════════════════════════════════════ -->
+  <script>
+    // ── Nav fill on scroll
+    const nav = document.getElementById('nav');
+    const heroBg = document.getElementById('heroBg');
+
+    window.addEventListener('scroll', () => {
+      // Subtle parallax on hero bg
+      if (heroBg) {
+        heroBg.style.transform = `scale(1.04) translateY(${window.scrollY * 0.15}px)`;
+      }
+    }, { passive: true });
+
+    // ── Mobile hamburger
+    document.getElementById('hamburger').addEventListener('click', function () {
+      const links = document.querySelector('.nav__links');
+      const open = links.style.display === 'flex';
+      links.style.cssText = open
+        ? ''
+        : 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--off-white);padding:24px 40px 32px;gap:22px;border-bottom:1px solid var(--warm-gray);z-index:199;box-shadow:0 8px 32px rgba(47,47,47,0.08);';
+      // Also show mobile cta
+      const cta = document.querySelector('.nav__cta');
+      if (cta) cta.style.display = open ? '' : 'block';
+    });
+
+    // ── Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    reveals.forEach(el => revealObs.observe(el));
+
+    // ── Hat scroller — drag to scroll
+    const scroller = document.getElementById('hatScroller');
+    let isDown = false, startX, scrollLeft;
+    scroller.addEventListener('mousedown', e => {
+      isDown = true;
+      startX = e.pageX - scroller.offsetLeft;
+      scrollLeft = scroller.scrollLeft;
+    });
+    scroller.addEventListener('mouseleave', () => { isDown = false; });
+    scroller.addEventListener('mouseup', () => { isDown = false; });
+    scroller.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scroller.offsetLeft;
+      scroller.scrollLeft = scrollLeft - (x - startX) * 1.5;
+    });
+
+    // ── Hero bg animate in
+    const heroBgEl = document.querySelector('.hero__bg');
+    if (heroBgEl) {
+      setTimeout(() => {
+        heroBgEl.style.transform = 'scale(1) translateY(0)';
+      }, 100);
+    }
+  </script>
+
+</body>
+</html>
