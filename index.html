@@ -587,6 +587,16 @@
       font-weight: 600; line-height: 1.05;
       letter-spacing: -0.5px; color: var(--near-black);
     }
+    .section-sub {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--near-black);
+      opacity: 0.52;
+      margin-top: 10px;
+      max-width: 340px;
+    }
 
     .view-all {
       font-family: var(--sans); font-size: 11px; font-weight: 500;
@@ -618,7 +628,7 @@
       background: var(--warm-gray);
     }
     .product-card__img img {
-      width: 100%; display: block;
+      width: 100%; height: 100%; display: block;
       object-fit: cover;
       filter: sepia(12%) saturate(85%);
       transition: transform .55s var(--ease), filter .35s;
@@ -1226,17 +1236,17 @@
 
           <div class="trust-bar" aria-label="Trust signals">
             <div class="trust-bar__item">
-              <svg viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,1 10,6 15,6 11,9.5 12.5,14.5 8,11.5 3.5,14.5 5,9.5 1,6 6,6"/></svg>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2l1.4 4.1h4.3l-3.4 2.6 1.2 4.2-3.5-2.5-3.5 2.5 1.2-4.2-3.4-2.6h4.3z"/></svg>
               4.8 · 2,400+ Reviews
             </div>
             <span class="trust-bar__sep" aria-hidden="true"></span>
             <div class="trust-bar__item">
-              <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="7" width="10" height="7" rx="1"/><path d="M11 10h2.5a1 1 0 00.9-.55l.6-1.2V7h-4"/><path d="M3.5 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM11.5 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="5" width="9" height="6" rx="1"/><path d="M10 7h2.2a1 1 0 01.87.5l.93 1.55V11h-4"/><circle cx="3.5" cy="12.5" r="1.5"/><circle cx="11.5" cy="12.5" r="1.5"/></svg>
               Free US Shipping $50+
             </div>
             <span class="trust-bar__sep" aria-hidden="true"></span>
             <div class="trust-bar__item">
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 112.5 5"/><path d="M2.5 2v3h3"/></svg>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l-2.5 2.5L4 9"/><path d="M1.5 6.5h6.5a3.5 3.5 0 010 7H5"/></svg>
               30-Day Returns
             </div>
           </div>
@@ -1348,17 +1358,17 @@
 
         <div class="trust-bar reveal reveal-delay-3" aria-label="Trust signals">
           <div class="trust-bar__item">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,1 10,6 15,6 11,9.5 12.5,14.5 8,11.5 3.5,14.5 5,9.5 1,6 6,6"/></svg>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2l1.4 4.1h4.3l-3.4 2.6 1.2 4.2-3.5-2.5-3.5 2.5 1.2-4.2-3.4-2.6h4.3z"/></svg>
             4.8 · 2,400+ Reviews
           </div>
           <span class="trust-bar__sep" aria-hidden="true"></span>
           <div class="trust-bar__item">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="7" width="10" height="7" rx="1"/><path d="M11 10h2.5a1 1 0 00.9-.55l.6-1.2V7h-4"/><path d="M3.5 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM11.5 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="5" width="9" height="6" rx="1"/><path d="M10 7h2.2a1 1 0 01.87.5l.93 1.55V11h-4"/><circle cx="3.5" cy="12.5" r="1.5"/><circle cx="11.5" cy="12.5" r="1.5"/></svg>
             Free US Shipping $50+
           </div>
           <span class="trust-bar__sep" aria-hidden="true"></span>
           <div class="trust-bar__item">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 112.5 5"/><path d="M2.5 2v3h3"/></svg>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l-2.5 2.5L4 9"/><path d="M1.5 6.5h6.5a3.5 3.5 0 010 7H5"/></svg>
             30-Day Returns
           </div>
         </div>
@@ -1387,6 +1397,7 @@
         <div>
           <p class="label section-eyebrow">The Diner Series + More</p>
           <h2 class="section-title" id="catalog-heading">Shop All Tees</h2>
+          <p class="section-sub">Soft tees rooted in the places you keep going back to. Garment-dyed, broken-in feel — built to outlast the trend.</p>
         </div>
         <a href="https://localll.store/Shop?category=tshirts" class="view-all">View All</a>
       </div>
@@ -1579,6 +1590,7 @@
         <div>
           <p class="label section-eyebrow">Easy Going Series</p>
           <h2 class="section-title" id="hats-heading">The Cap Collection</h2>
+          <p class="section-sub">Low-profile, broken-in caps for wherever the road takes you. Grab one and go.</p>
         </div>
         <a href="https://localll.store/Shop?category=hats" class="view-all">All Hats</a>
       </div>
@@ -1743,6 +1755,7 @@
         <div>
           <p class="label section-eyebrow">Patch Series</p>
           <h2 class="section-title" id="sweats-heading">Sweatshirts Built to Last</h2>
+          <p class="section-sub">Heavy enough to feel it. Soft enough to never take off. Made for the long haul.</p>
         </div>
         <a href="https://localll.store/Shop?category=sweatshirts" class="view-all">All Sweatshirts</a>
       </div>
@@ -1882,7 +1895,7 @@
        ═══════════════════════════════════════════ -->
   <section class="creator" aria-labelledby="creator-heading">
     <div class="creator__image">
-      <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=900&h=800&fit=crop" alt="Creator designing for Localll" loading="lazy" />
+      <img src="sketching-shirt.png" alt="Creator designing for Localll" loading="lazy" />
       <div class="creator__image-overlay"></div>
     </div>
     <div class="creator__content">
